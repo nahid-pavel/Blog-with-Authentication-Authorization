@@ -21,8 +21,8 @@ class UserController extends Controller
           $this->validate($request,[
                 
              'email'=> 'required|email|unique:users',
-             'first_name'=> 'required|max:120'
-             'password'=> 'required|min:10'
+             'first_name'=> 'required|max:120',
+             'password'=> 'required|min:5'
 
           ]);
 
@@ -40,13 +40,22 @@ class UserController extends Controller
 
           Auth::login($user);
 
-          return redirect()->route('dashboard');
+          
+
+          return redirect()->route('dashboard')->withInput();
 
 
 
     }
 
      public function postSignIn(Request $request){
+
+       $this->validate($request,[
+                
+             'email'=> 'required',
+             'password'=> 'required'
+
+          ]);
 
         if(Auth::attempt(['email'=> $request['email'], 'password'=> $request['password']])){
 
